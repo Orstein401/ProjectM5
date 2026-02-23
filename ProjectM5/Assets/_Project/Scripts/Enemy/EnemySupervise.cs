@@ -5,17 +5,18 @@ using UnityEngine;
 public class EnemySupervise : EnemyParent
 {
     [SerializeField] private float rotationSpeed;
-    [SerializeField] private float rotationTime;
+    [SerializeField] float rotationStep = 45f;
 
     private float angleRotationY;
-    private bool isRotating;
     private Coroutine waitRoutine;
+
+    private Vector3 pointOrigin;
 
     private void Start()
     {
         currentState = STATE.Supervise;
         angleRotationY = transform.eulerAngles.y;
-        Debug.Log(angleRotationY);
+        pointOrigin = transform.position;
     }
 
     private void Update()
@@ -34,22 +35,35 @@ public class EnemySupervise : EnemyParent
                     currentState = STATE.Chase;
                     return;
                 }
-                Supervising();
+                Supervise();
                 break;
 
             case STATE.Chase:
 
+                if (waitRoutine != null)
+                {
+                    StopCoroutine(waitRoutine);
+                    waitRoutine = null;
+                }
                 if (!ConeVisual())
                 {
-                    currentState = STATE.Supervise;
+                    currentState = STATE.ReturnToPost;
                     return;
                 }
                 ChasingTarget();
                 break;
+            case STATE.ReturnToPost:
+                if (ConeVisual())
+                {
+                    currentState = STATE.Chase;
+                    return;
+                }
+                ReturnToOrigin();
+                break;
         }
     }
 
-    protected void Supervising()
+    protected void Supervise()
     {
 
         Quaternion angleRotation = Quaternion.Euler(0f, angleRotationY, 0f);
@@ -62,21 +76,32 @@ public class EnemySupervise : EnemyParent
         {
             if (waitRoutine == null)
             {
-                waitRoutine= StartCoroutine(CalculateRotation());
+                waitRoutine = StartCoroutine(WaitAndSetAngle());
 
             }
         }
 
     }
 
-    IEnumerator CalculateRotation()
+    IEnumerator WaitAndSetAngle()
     {
 
         yield return new WaitForSeconds(interval);
-        angleRotationY += 45f;
-        if (angleRotationY >= 360f) angleRotationY = 0f;
+        angleRotationY += rotationStep;
+        angleRotationY %= 360f;
         waitRoutine = null;
         Debug.Log(angleRotationY);
 
     }
+
+    protected void ReturnToOrigin()
+    {
+        if (enemyAgent.destination != pointOrigin) enemyAgent.SetDestination(pointOrigin);
+        if (!enemyAgent.pathPending && enemyAgent.remainingDistance <= enemyAgent.stoppingDistance)
+        {
+            angleRotationY = transform.eulerAngles.y;
+            currentState = STATE.Supervise;
+        }
+    }
+
 }

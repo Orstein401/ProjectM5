@@ -836,7 +836,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &843646700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1568,10 +1568,10 @@ MonoBehaviour:
   obstacle:
     serializedVersion: 2
     m_Bits: 64
-  interval: 5
+  interval: 1
   chaseUpdateInterval: 0.1
-  rotationSpeed: 1
-  rotationTime: 5
+  rotationSpeed: 100
+  rotationStep: 45
 --- !u!120 &1992263821
 LineRenderer:
   serializedVersion: 2
