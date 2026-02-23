@@ -6,23 +6,38 @@ using UnityEngine.AI;
 public abstract class EnemyParent : MonoBehaviour
 {
     [Header("Componets")]
-    private NavMeshAgent enmyAgent;
-    private LineRenderer lineRend;
+    protected NavMeshAgent enemyAgent;
+    protected LineRenderer lineRend;
 
     [Header("Stat for Visual Cone")]
-    [SerializeField] private Transform target;
-    [SerializeField] private float angularOfView;
-    [SerializeField] private float sightDistance;
+    [SerializeField] protected Transform target;
+    [SerializeField] protected float angularOfView;
+    [SerializeField] protected float sightDistance;
     [SerializeField] protected int subdivision;
-    [SerializeField] private LayerMask obstacle;
+    [SerializeField] protected LayerMask obstacle;
 
     [Header("State")]
-    private STATE state;
+    protected STATE currentState;
+
+    [Header("Parametres")]
+    [SerializeField] protected float interval;
+    [SerializeField] protected float chaseUpdateInterval;
+    protected float lastUpdateChase;
 
     private void Awake()
     {
-        enmyAgent = GetComponent<NavMeshAgent>();
+        enemyAgent = GetComponent<NavMeshAgent>();
         lineRend = GetComponent<LineRenderer>();
+    }
+    protected abstract void StateMachine();
+
+    protected virtual void ChasingTarget()
+    {
+        if (target != null && Time.time - lastUpdateChase >= chaseUpdateInterval)
+        {
+            enemyAgent.SetDestination(target.position);
+            lastUpdateChase = Time.time;
+        }
     }
 
     protected bool ConeVisual()
@@ -38,15 +53,11 @@ public abstract class EnemyParent : MonoBehaviour
         float distance = Mathf.Sqrt(sqrDistance);
         toTarget /= distance;
 
-        //if (Vector3.Dot(transform.forward, toTarget) < Mathf.Cos(angularOfView * Mathf.Deg2Rad)) //Vector3.Angle(a,b)
-        //{
-        //    return false;
-        //}
-        if (Vector3.Dot(transform.forward, toTarget) < Vector3.Angle(transform.forward,target.position)) //Vector3.Angle(a,b)
+        if (Vector3.Dot(transform.forward, toTarget) < Mathf.Cos(angularOfView * Mathf.Deg2Rad))
         {
-            Debug.Log("sta fuopri dagli angoli");
             return false;
         }
+
         if (Physics.Linecast(transform.position, target.position, obstacle))
         {
 
@@ -56,7 +67,6 @@ public abstract class EnemyParent : MonoBehaviour
         return true;
 
     }
-
 
     public void DrawConeOfViewQuaterion(int subdivisions)
     {
