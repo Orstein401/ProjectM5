@@ -21,7 +21,7 @@ public class EnemySupervise : EnemyParent
 
     private void Update()
     {
-        DrawConeOfViewQuaterion(subdivision);
+        DrawConeOfViewQuaterion(stat.Subdivision);
         StateMachine();
     }
     protected override void StateMachine()
@@ -90,7 +90,6 @@ public class EnemySupervise : EnemyParent
         angleRotationY += rotationStep;
         angleRotationY %= 360f;
         waitRoutine = null;
-        Debug.Log(angleRotationY);
 
     }
 
@@ -99,7 +98,7 @@ public class EnemySupervise : EnemyParent
         if (enemyAgent.destination != pointOrigin) enemyAgent.SetDestination(pointOrigin);
         if (!enemyAgent.pathPending && enemyAgent.remainingDistance <= enemyAgent.stoppingDistance)
         {
-            angleRotationY = transform.eulerAngles.y;
+            angleRotationY = transform.eulerAngles.y;// da vedere se resta
             currentState = STATE.Supervise;
         }
     }

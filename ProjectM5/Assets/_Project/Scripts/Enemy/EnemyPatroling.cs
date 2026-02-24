@@ -18,7 +18,7 @@ public class EnemyPatroling : EnemyParent
     }
     private void Update()
     {
-        DrawConeOfViewQuaterion(subdivision);
+        DrawConeOfViewQuaterion(stat.Subdivision);
         StateMachine();
 
     }

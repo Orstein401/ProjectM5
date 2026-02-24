@@ -11,17 +11,13 @@ public abstract class EnemyParent : MonoBehaviour
 
     [Header("Stat for Visual Cone")]
     [SerializeField] protected Transform target;
-    [SerializeField] protected float angularOfView;
-    [SerializeField] protected float sightDistance;
-    [SerializeField] protected int subdivision;
-    [SerializeField] protected LayerMask obstacle;
+    [SerializeField] protected SO_StatEnemy stat;
 
     [Header("State")]
     protected STATE currentState;
 
     [Header("Parametres")]
     [SerializeField] protected float interval;
-    [SerializeField] protected float chaseUpdateInterval;
     protected float lastUpdateChase;
 
     private void Awake()
@@ -33,7 +29,7 @@ public abstract class EnemyParent : MonoBehaviour
 
     protected virtual void ChasingTarget()
     {
-        if (target != null && Time.time - lastUpdateChase >= chaseUpdateInterval)
+        if (target != null && Time.time - lastUpdateChase >= stat.ChaseUpdateInterval)
         {
             enemyAgent.SetDestination(target.position);
             lastUpdateChase = Time.time;
@@ -45,7 +41,7 @@ public abstract class EnemyParent : MonoBehaviour
         Vector3 toTarget = target.position - transform.position;
         float sqrDistance = toTarget.sqrMagnitude;
 
-        if (sqrDistance > sightDistance * sightDistance)
+        if (sqrDistance > stat.SightDistance * stat.SightDistance)
         {
             return false;
         }
@@ -53,12 +49,12 @@ public abstract class EnemyParent : MonoBehaviour
         float distance = Mathf.Sqrt(sqrDistance);
         toTarget /= distance;
 
-        if (Vector3.Dot(transform.forward, toTarget) < Mathf.Cos(angularOfView * Mathf.Deg2Rad))
+        if (Vector3.Dot(transform.forward, toTarget) < Mathf.Cos(stat.AngularOfView * Mathf.Deg2Rad))
         {
             return false;
         }
 
-        if (Physics.Linecast(transform.position, target.position, obstacle))
+        if (Physics.Linecast(transform.position, target.position, stat.Obstacle))
         {
 
             return false;
@@ -72,7 +68,7 @@ public abstract class EnemyParent : MonoBehaviour
     {
         lineRend.positionCount = subdivisions + 1;
 
-        float startAngle = -angularOfView;
+        float startAngle = -stat.AngularOfView;
 
         Vector3 originLine = transform.position;
         Vector3 rayCastOrigin = transform.position + new Vector3(0f, 0.1f, 0f);
@@ -80,15 +76,15 @@ public abstract class EnemyParent : MonoBehaviour
 
         lineRend.SetPosition(0, originLine);
 
-        float deltaAngle = (2 * angularOfView / subdivisions);
+        float deltaAngle = (2 * stat.AngularOfView / subdivisions);
 
         for (int i = 0; i < subdivisions; i++)
         {
             float currentAngle = startAngle + deltaAngle * i;
             Vector3 dir = Quaternion.Euler(0, currentAngle, 0) * forward;
-            Vector3 point = originLine + dir * sightDistance;
+            Vector3 point = originLine + dir * stat.SightDistance;
 
-            if (Physics.Raycast(rayCastOrigin, dir, out var hitInfo, sightDistance, obstacle))
+            if (Physics.Raycast(rayCastOrigin, dir, out var hitInfo, stat.SightDistance, stat.Obstacle))
             {
                 point = hitInfo.point - (rayCastOrigin - originLine);
             }
@@ -97,3 +93,8 @@ public abstract class EnemyParent : MonoBehaviour
 
     }
 }
+
+//[SerializeField] protected float angularOfView;
+//[SerializeField] protected float sightDistance;
+//[SerializeField] protected int subdivision;
+//[SerializeField] protected LayerMask obstacle;
