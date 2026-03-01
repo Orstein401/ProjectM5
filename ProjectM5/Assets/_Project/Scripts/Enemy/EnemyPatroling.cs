@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class EnemyPatroling : EnemyParent
 {
+    [Header("Waypoint")]
     [SerializeField] private Transform[] waypoints;
-
     private int currentPoint;
 
+    [Header("Parametres Couritine")]
     private Coroutine waitRoutine;
-    private bool IsWaiting;
+    private bool isWaiting;
+
+    [Header("Parametres Animation")]
+    private bool isWalking;
+    private bool isRunning;
 
     private void Start()
     {
@@ -33,6 +38,7 @@ public class EnemyPatroling : EnemyParent
                 if (ConeVisual())
                 {
                     currentState = STATE.Chase;
+
                     return;
                 }
                 Patroling();
@@ -43,7 +49,7 @@ public class EnemyPatroling : EnemyParent
                 if (waitRoutine!=null)
                 {
                     StopCoroutine(waitRoutine);
-                    IsWaiting = false;
+                    isWaiting = false;
                     waitRoutine = null;
                 }
 
@@ -53,6 +59,7 @@ public class EnemyPatroling : EnemyParent
                 {
                     currentState = STATE.Patrol;
                     enemyAgent.SetDestination(waypoints[currentPoint].position);
+
                     return;
                 }
                 ChasingTarget();
@@ -62,7 +69,7 @@ public class EnemyPatroling : EnemyParent
 
     protected void Patroling()
     {
-        if(IsWaiting) return;
+        if(isWaiting) return;
 
         if (!enemyAgent.pathPending && enemyAgent.remainingDistance <= enemyAgent.stoppingDistance)
         {
@@ -80,7 +87,7 @@ public class EnemyPatroling : EnemyParent
     {
       
         enemyAgent.isStopped = true;
-        IsWaiting=true;
+        isWaiting=true;
 
         yield return new WaitForSeconds(interval);
 
@@ -88,7 +95,7 @@ public class EnemyPatroling : EnemyParent
         enemyAgent.SetDestination(waypoints[currentPoint].position);
 
         enemyAgent.isStopped=false;
-        IsWaiting=false;
+        isWaiting=false;
         waitRoutine = null;
 
     }

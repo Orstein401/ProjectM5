@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc786a16d2b472c4787e016bc3dbcdad, type: 3}
   m_Name: EnemyStat
   m_EditorClassIdentifier: 
-  speed: 0
+  speed: 3.5
   angularOfView: 45
   sightDistance: 5
   subdivision: 20

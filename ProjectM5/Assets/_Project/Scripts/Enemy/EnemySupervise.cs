@@ -12,6 +12,7 @@ public class EnemySupervise : EnemyParent
 
     private Vector3 pointOrigin;
 
+ 
     private void Start()
     {
         currentState = STATE.Supervise;
@@ -85,7 +86,6 @@ public class EnemySupervise : EnemyParent
 
     IEnumerator WaitAndSetAngle()
     {
-
         yield return new WaitForSeconds(interval);
         angleRotationY += rotationStep;
         angleRotationY %= 360f;
@@ -98,7 +98,6 @@ public class EnemySupervise : EnemyParent
         if (enemyAgent.destination != pointOrigin) enemyAgent.SetDestination(pointOrigin);
         if (!enemyAgent.pathPending && enemyAgent.remainingDistance <= enemyAgent.stoppingDistance)
         {
-            angleRotationY = transform.eulerAngles.y;// da vedere se resta
             currentState = STATE.Supervise;
         }
     }

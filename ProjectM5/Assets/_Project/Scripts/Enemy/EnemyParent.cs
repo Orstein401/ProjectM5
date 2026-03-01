@@ -8,6 +8,7 @@ public abstract class EnemyParent : MonoBehaviour
     [Header("Componets")]
     protected NavMeshAgent enemyAgent;
     protected LineRenderer lineRend;
+    protected AnimationScript anim;
 
     [Header("Stat for Visual Cone")]
     [SerializeField] protected Transform target;
@@ -16,14 +17,16 @@ public abstract class EnemyParent : MonoBehaviour
     [Header("State")]
     protected STATE currentState;
 
-    [Header("Parametres")]
+    [Header("Parametres Interval")]
     [SerializeField] protected float interval;
     protected float lastUpdateChase;
 
-    private void Awake()
+    protected void Awake()
     {
         enemyAgent = GetComponent<NavMeshAgent>();
         lineRend = GetComponent<LineRenderer>();
+        anim = GetComponentInChildren<AnimationScript>();
+        enemyAgent.speed = stat.Speed;
     }
     protected abstract void StateMachine();
 
@@ -54,7 +57,7 @@ public abstract class EnemyParent : MonoBehaviour
             return false;
         }
 
-        if (Physics.Linecast(transform.position, target.position, stat.Obstacle))
+        if (Physics.Linecast(transform.position, target.position+Vector3.up, stat.Obstacle))
         {
 
             return false;
@@ -93,8 +96,3 @@ public abstract class EnemyParent : MonoBehaviour
 
     }
 }
-
-//[SerializeField] protected float angularOfView;
-//[SerializeField] protected float sightDistance;
-//[SerializeField] protected int subdivision;
-//[SerializeField] protected LayerMask obstacle;
