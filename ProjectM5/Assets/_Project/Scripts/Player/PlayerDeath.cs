@@ -11,16 +11,12 @@ public class PlayerDeath : MonoBehaviour
     [SerializeField] private float timerRespawn;
 
     private Coroutine deathRoutine;
-
+    private bool isDeath;
     private AnimationScript anim;
     private void Awake()
     {
         controller = GetComponent<PlayerController>();
         anim = GetComponentInChildren<AnimationScript>();
-    }
-    private void Start()
-    {
-        SpawnManager.Instance.SetSpawnPoint(transform.position);
     }
     private void DeathPlayer()
     {
@@ -40,8 +36,9 @@ public class PlayerDeath : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent<EnemyParent>(out var enemy))
+        if (other.CompareTag("Enemy")&&!isDeath)
         {
+            isDeath=true;
             DeathPlayer();
         }
     }
@@ -51,10 +48,15 @@ public class PlayerDeath : MonoBehaviour
 
         controller.enabled = false;
         anim.ChangeAnimation(false, false,true);
+
         yield return new WaitForSeconds(timerRespawn);
+
         controller.enabled = true;
-        transform.position = SpawnManager.Instance.SpawnPoint;
+
+        transform.position = controller.SpawnPoint;
         controller.PlayerAgent.SetDestination(transform.position); // lo faccio per resetare la destinazione, altrimenti riparte verso l'ultimo punto cliccato prima della morte
+        isDeath = false;
+
         anim.ChangeAnimation(true, false, false);
         deathRoutine = null;
     }

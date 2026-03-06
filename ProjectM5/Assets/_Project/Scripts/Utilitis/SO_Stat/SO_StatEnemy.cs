@@ -11,9 +11,6 @@ public class SO_StatEnemy : SO_Stat
     [SerializeField] private int subdivision;
     [SerializeField] private LayerMask obstacle;
 
-    [Header("Chase Settings")]
-    [SerializeField] private float chaseUpdateInterval;
-
     //Getter
     public float AngularOfView { get => angularOfView; }
     public float SightDistance { get => sightDistance; }
@@ -21,5 +18,4 @@ public class SO_StatEnemy : SO_Stat
 
     public LayerMask Obstacle { get => obstacle; }
 
-    public float ChaseUpdateInterval { get => chaseUpdateInterval; }
 }

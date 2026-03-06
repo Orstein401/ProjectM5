@@ -8,14 +8,16 @@ public class AudioManager : MonoBehaviour
 
     public SoundData[] AudioClips;
 
+    private static bool isApplicationQuit = false;
     private void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (Instance != null && Instance != this && !isApplicationQuit)
         {
             Destroy(gameObject);
             return;
         }
         Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     public void PlaySound(AudioSource audioSource, SoundID id)
@@ -36,6 +38,18 @@ public class AudioManager : MonoBehaviour
     {
         int index = Random.Range(0, audioClips.Length);
         return audioClips[index];
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+    }
+    protected virtual void OnApplicationQuit()
+    {
+        isApplicationQuit = true;
     }
 
 

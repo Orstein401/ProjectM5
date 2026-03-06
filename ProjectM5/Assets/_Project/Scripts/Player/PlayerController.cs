@@ -16,11 +16,16 @@ public class PlayerController : MonoBehaviour
     private AnimationScript anim;
 
     public NavMeshAgent PlayerAgent {  get { return playerAgent; } }
+
+    private Vector3 spawnPoint;
+    public Vector3 SpawnPoint { get { return spawnPoint; } }
     private void Awake()
     {
         playerAgent = GetComponent<NavMeshAgent>();
         anim= GetComponentInChildren<AnimationScript>();
         cam = Camera.main;
+
+        spawnPoint = transform.position;
     }
     private void Update()
     {

@@ -10,7 +10,7 @@ public class Door : Interactable
      private bool active;
     private void Awake()
     {
-        animator = GetComponentInParent<Animator>();
+        animator = GetComponentInChildren<Animator>();
     }
     protected override void Interact()
     {

@@ -7,7 +7,7 @@ public abstract class Interactable : MonoBehaviour
     [SerializeField] private Canvas interactCanvas;
     private bool isNearPlayer;
 
-    private void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {

@@ -30,7 +30,7 @@ public class PlayerMenu : MonoBehaviour
     {
         menuPlayer.enabled = false;
         Time.timeScale = 1;
-        player.transform.position = SpawnManager.Instance.SpawnPoint;
+        player.transform.position = player.SpawnPoint;
         player.PlayerAgent.SetDestination(player.transform.position); // lo faccio per resetare la destinazione, altrimenti riparte verso l'ultimo punto cliccato prima della morte
     }
 
@@ -43,6 +43,7 @@ public class PlayerMenu : MonoBehaviour
 
     public void ReturnMainMenu()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene(0);
     }
 }
