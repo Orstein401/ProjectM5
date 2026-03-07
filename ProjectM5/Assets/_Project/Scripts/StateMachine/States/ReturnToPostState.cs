@@ -5,6 +5,7 @@ using UnityEngine;
 public class ReturnToPostState : BaseState
 {
     private Vector3 pointOrigin;
+    [SerializeField] private string nameWalkPar = "IsWalking";
 
     private void Start()
     {
@@ -12,6 +13,7 @@ public class ReturnToPostState : BaseState
     }
     public override void OnStateEnter()
     {
+        controller.Animator.SetBool(nameWalkPar,true);
     }
     public override void StateUpdate()
     {
@@ -19,7 +21,8 @@ public class ReturnToPostState : BaseState
     }
     public override void OnStateExit()
     {
-        
+        controller.Animator.SetBool(nameWalkPar,false);
+
     }
 
 

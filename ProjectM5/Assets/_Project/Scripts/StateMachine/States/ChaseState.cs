@@ -5,10 +5,12 @@ using UnityEngine;
 public class ChaseState : BaseState
 {
     [SerializeField] protected float chaseUpdateInterval=0.1f;
+    [SerializeField] private string nameRunPar="IsRunning";
+
     protected float lastUpdateChase;
     public override void OnStateEnter()
     {
-
+        controller.Animator.SetBool(nameRunPar, true);
     }
     public override void StateUpdate()
     {
@@ -20,6 +22,7 @@ public class ChaseState : BaseState
     }
     public override void OnStateExit()
     {
+        controller.Animator.SetBool(nameRunPar, false);
 
     }
 }

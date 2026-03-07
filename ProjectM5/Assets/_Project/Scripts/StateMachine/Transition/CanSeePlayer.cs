@@ -28,7 +28,6 @@ public class CanSeePlayer : StateTransition
 
             return !canSeePlayerRequired;
         }
-        Debug.Log("lo vede");
         return canSeePlayerRequired;
     }
 }

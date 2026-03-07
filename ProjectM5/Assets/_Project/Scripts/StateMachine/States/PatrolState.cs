@@ -7,6 +7,8 @@ public class PatrolState : BaseState
     [Header("Waypoint")]
     [SerializeField] private Transform[] waypoints;
 
+    [SerializeField] private string nameWalkPar="IsWalking";
+
     private int currentPoint;
 
     [Header("Parametres Couritine")]
@@ -15,6 +17,7 @@ public class PatrolState : BaseState
     public override void OnStateEnter()
     {
         controller.EnemyAgent.SetDestination(waypoints[currentPoint].position);
+        controller.Animator.SetBool(nameWalkPar, true);
     }
 
     public override void StateUpdate()
@@ -39,13 +42,14 @@ public class PatrolState : BaseState
         }
         if (controller.EnemyAgent.isStopped) controller.EnemyAgent.isStopped = false;
 
+
     }
     IEnumerator Wait()
     {
 
         controller.EnemyAgent.isStopped = true;
         isWaiting = true;
-
+        controller.Animator.SetBool(nameWalkPar,false);
         yield return new WaitForSeconds(controller.Interval);
 
         currentPoint = (currentPoint + 1) % waypoints.Length;
@@ -54,6 +58,8 @@ public class PatrolState : BaseState
         controller.EnemyAgent.isStopped = false;
         isWaiting = false;
         waitRoutine = null;
+
+        controller.Animator.SetBool(nameWalkPar, true);
 
     }
 }

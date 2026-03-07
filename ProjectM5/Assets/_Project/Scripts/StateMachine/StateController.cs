@@ -14,6 +14,8 @@ public class StateController : MonoBehaviour
     [Header("Componets")]
     protected NavMeshAgent enemyAgent;
     protected LineRenderer lineRend;
+    protected Animator animator;
+
     protected AnimationScript anim;
 
     [Header("Stat for Visual Cone")]
@@ -29,12 +31,14 @@ public class StateController : MonoBehaviour
 
     public Transform Target { get { return target; } }
     public SO_StatEnemy Stat { get { return stat; } }
-
+    public Animator Animator { get { return animator; } }
     public float Interval { get { return interval; } }
     private void Awake()
     {
         allStates = GetComponentsInChildren<BaseState>();
         enemyAgent = GetComponent<NavMeshAgent>();
+        animator = GetComponentInChildren<Animator>();
+       
         foreach (BaseState state in allStates)
         {
             state.SetUp(this);

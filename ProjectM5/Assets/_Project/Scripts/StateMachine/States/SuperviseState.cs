@@ -11,6 +11,7 @@ public class SuperviseState : BaseState
     private float angleRotationY;
     private Coroutine waitRoutine;
 
+    [SerializeField] private string nameTurnPar="IsTurning";
     private void Start()
     {
         angleRotationY = transform.eulerAngles.y;
@@ -43,14 +44,18 @@ public class SuperviseState : BaseState
             StopCoroutine(waitRoutine);
             waitRoutine = null;
         }
+        controller.Animator.SetBool(nameTurnPar, false);
     }
 
     IEnumerator WaitAndSetAngle()
     {
+        controller.Animator.SetBool(nameTurnPar, false);
         yield return new WaitForSeconds(controller.Interval);
         angleRotationY += rotationStep;
         angleRotationY %= 360f;
         waitRoutine = null;
+
+        controller.Animator.SetBool(nameTurnPar,true);
 
 
     }
