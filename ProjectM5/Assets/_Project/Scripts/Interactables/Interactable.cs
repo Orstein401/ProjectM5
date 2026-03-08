@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Interactable : MonoBehaviour
 {
-    [SerializeField] private Canvas interactCanvas;
+    [SerializeField] protected Canvas interactCanvas;
     private bool isNearPlayer;
 
     protected virtual void OnTriggerEnter(Collider other)
@@ -25,8 +25,7 @@ public abstract class Interactable : MonoBehaviour
         }
 
     }
-
-    private void OnTriggerExit(Collider other)
+    protected virtual void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {

@@ -489,7 +489,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextState: {fileID: 4354649606820597616}
-  mustBeTrigger: 0
+  mustBeTrigger: 1
 --- !u!1001 &4703866260743346086
 PrefabInstance:
   m_ObjectHideFlags: 0

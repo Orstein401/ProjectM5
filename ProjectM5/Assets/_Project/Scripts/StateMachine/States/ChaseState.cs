@@ -12,6 +12,8 @@ public class ChaseState : BaseState
     {
         controller.EnemyAgent.speed = 3.5f;
         controller.Animator.SetBool(nameRunPar, true);
+
+        //sarebbe da aggiungere il riferimento al linerender per far si che diventi rosso
     }
     public override void StateUpdate()
     {

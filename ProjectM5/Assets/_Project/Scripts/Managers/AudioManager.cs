@@ -8,6 +8,8 @@ public class AudioManager : MonoBehaviour
 
     public SoundData[] AudioClips;
 
+    private AudioSource audioSource;
+
     private static bool isApplicationQuit = false;
     private void Awake()
     {
@@ -18,9 +20,10 @@ public class AudioManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        audioSource = GetComponent<AudioSource>();
     }
 
-    public void PlaySound(AudioSource audioSource, SoundID id)
+    public void PlaySound( SoundID id)
     {
         AudioClip[] clips=null;
         foreach (SoundData clip in AudioClips)

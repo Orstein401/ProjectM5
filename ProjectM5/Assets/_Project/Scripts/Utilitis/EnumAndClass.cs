@@ -5,7 +5,7 @@ using UnityEngine;
 
 public enum STATE {Supervise, Patrol, Chase, ReturnToPost}
 
-public enum SoundID {Zombie,Player, AmbientMusic, AssaultMusic}
+public enum SoundID {Zombie,Player, AmbientMusic, AssaultMusic, CreepyMusic}
 
 [Serializable]
 public class SoundData

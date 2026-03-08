@@ -6,14 +6,8 @@ public class AudioMusic : MonoBehaviour
 {
     [SerializeField] private SoundID typeMusic;
 
-    private AudioSource audioSource;
-
-    private void Awake()
-    {
-        audioSource = GetComponent<AudioSource>();
-    }
     private void Start()
     {
-        AudioManager.Instance.PlaySound(audioSource, typeMusic);
+        AudioManager.Instance.PlaySound(typeMusic);
     }
 }

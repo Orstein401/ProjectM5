@@ -16,16 +16,18 @@ public class PlayerController : MonoBehaviour
     private AnimationScript anim;
     [SerializeField] private Rock rockPrefab;
 
-    public NavMeshAgent PlayerAgent { get { return playerAgent; } }
+    [SerializeField] private float throwCooldown = 4f;
+    private float nextThrowTime;
 
     private Vector3 spawnPoint;
-    public Vector3 SpawnPoint { get { return spawnPoint; } }
+    public Vector3 SpawnPoint { get => spawnPoint; }
+    public NavMeshAgent PlayerAgent { get { return playerAgent; } }
+
     private void Awake()
     {
         playerAgent = GetComponent<NavMeshAgent>();
         anim = GetComponentInChildren<AnimationScript>();
         cam = Camera.main;
-
         spawnPoint = transform.position;
     }
     private void Update()
@@ -36,8 +38,9 @@ public class PlayerController : MonoBehaviour
             isWalking = true;
             anim.ChangeAnimation(isWalking, isRunning);
         }
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) && Time.time >= nextThrowTime)
         {
+            nextThrowTime = Time.time + throwCooldown;
             ThrowRock();
         }
         if (!playerAgent.pathPending && playerAgent.remainingDistance <= playerAgent.stoppingDistance)
@@ -65,7 +68,7 @@ public class PlayerController : MonoBehaviour
     private void ThrowRock()
     {
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-     
+
         Rock rock = Instantiate(rockPrefab);
         rock.transform.position = transform.position + Vector3.up;
 
@@ -73,6 +76,6 @@ public class PlayerController : MonoBehaviour
         {
             rock.SetTrajectory(rock.transform.position, hitinfo.point);
         }
-      
+
     }
 }

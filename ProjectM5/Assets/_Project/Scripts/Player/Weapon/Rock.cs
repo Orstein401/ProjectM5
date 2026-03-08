@@ -47,6 +47,7 @@ public class Rock : MonoBehaviour
         start=Start; 
         end=End;
     }
+    //Non Funziona perfettamente per via del fatto che può attraversare il pavimento e tornare su per poi colpirlo
     public void FlyToPoint()
     {
         timer += Time.deltaTime;

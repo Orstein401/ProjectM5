@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09cc89e3e69a66f438915bf986e622cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextState: {fileID: 7192616132711759625}
+  nextState: {fileID: 6019279472831440163}
   canSeePlayerRequired: 0
 --- !u!1 &5245958383125370205
 GameObject:
@@ -611,6 +611,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ZombieCompleteAnimations (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 113b93a78176d4449bf1585851e0164c,
+        type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 113b93a78176d4449bf1585851e0164c,
         type: 3}
