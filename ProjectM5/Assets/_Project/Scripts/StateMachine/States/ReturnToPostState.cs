@@ -13,6 +13,7 @@ public class ReturnToPostState : BaseState
     }
     public override void OnStateEnter()
     {
+        controller.EnemyAgent.speed = 0.3f;
         controller.Animator.SetBool(nameWalkPar,true);
     }
     public override void StateUpdate()

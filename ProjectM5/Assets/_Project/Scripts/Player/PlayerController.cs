@@ -14,15 +14,16 @@ public class PlayerController : MonoBehaviour
     private bool isRunning;
 
     private AnimationScript anim;
+    [SerializeField] private Rock rockPrefab;
 
-    public NavMeshAgent PlayerAgent {  get { return playerAgent; } }
+    public NavMeshAgent PlayerAgent { get { return playerAgent; } }
 
     private Vector3 spawnPoint;
     public Vector3 SpawnPoint { get { return spawnPoint; } }
     private void Awake()
     {
         playerAgent = GetComponent<NavMeshAgent>();
-        anim= GetComponentInChildren<AnimationScript>();
+        anim = GetComponentInChildren<AnimationScript>();
         cam = Camera.main;
 
         spawnPoint = transform.position;
@@ -34,9 +35,12 @@ public class PlayerController : MonoBehaviour
             playerAgent.SetDestination(GetDestination());
             isWalking = true;
             anim.ChangeAnimation(isWalking, isRunning);
-
         }
-        if (!playerAgent.pathPending && playerAgent.remainingDistance<=playerAgent.stoppingDistance)
+        if (Input.GetMouseButtonDown(1))
+        {
+            ThrowRock();
+        }
+        if (!playerAgent.pathPending && playerAgent.remainingDistance <= playerAgent.stoppingDistance)
         {
             isWalking = false;
             anim.ChangeAnimation(isWalking, isRunning);
@@ -47,7 +51,7 @@ public class PlayerController : MonoBehaviour
         Vector3 destination;
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
         Physics.Raycast(ray, out RaycastHit hitinfo);
-        if(hitinfo.collider != null)
+        if (hitinfo.collider != null)
         {
             destination = hitinfo.point;
         }
@@ -56,5 +60,19 @@ public class PlayerController : MonoBehaviour
             destination = transform.position; //gli do come sua destinazione il suo punto attuale, in modo tale che non venga restituito il punto 0 del mondo
         }
         return destination;
+    }
+
+    private void ThrowRock()
+    {
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+     
+        Rock rock = Instantiate(rockPrefab);
+        rock.transform.position = transform.position + Vector3.up;
+
+        if (Physics.Raycast(ray, out RaycastHit hitinfo))
+        {
+            rock.SetTrajectory(rock.transform.position, hitinfo.point);
+        }
+      
     }
 }

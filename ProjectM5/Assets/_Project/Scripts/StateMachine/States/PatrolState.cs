@@ -16,6 +16,7 @@ public class PatrolState : BaseState
     private bool isWaiting;
     public override void OnStateEnter()
     {
+        controller.EnemyAgent.speed = 0.5f;
         controller.EnemyAgent.SetDestination(waypoints[currentPoint].position);
         controller.Animator.SetBool(nameWalkPar, true);
     }

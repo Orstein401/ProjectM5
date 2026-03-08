@@ -13,6 +13,14 @@ public class DrawConeVisual : MonoBehaviour
         stateController = GetComponent<StateController>();
         lineRend=GetComponent<LineRenderer>();
     }
+    private void Start()
+    {
+        lineRend.startColor = Color.green;
+        lineRend.endColor = Color.green;
+
+        lineRend.startWidth = 0.1f;
+        lineRend.endWidth = 0.1f;
+    }
     private void Update()
     {
         DrawConeOfViewQuaterion(sides);

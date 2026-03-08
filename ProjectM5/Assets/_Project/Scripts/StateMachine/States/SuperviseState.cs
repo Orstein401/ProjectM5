@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SuperviseState : BaseState
 {
-    [SerializeField] private Transform parent;
     [SerializeField] private float rotationSpeed;
     [SerializeField] float rotationStep = 45f;
 
@@ -18,7 +17,7 @@ public class SuperviseState : BaseState
     }
     public override void OnStateEnter()
     {
-       
+        controller.EnemyAgent.speed = 0.5f;
     }
     public override void StateUpdate()
     {
@@ -26,7 +25,7 @@ public class SuperviseState : BaseState
 
         if (Quaternion.Angle(transform.rotation, angleRotation) > 0.05f)
         {
-            parent.transform.rotation = Quaternion.RotateTowards(parent.transform.rotation, angleRotation, rotationSpeed * Time.deltaTime);
+            controller.Parent.transform.rotation = Quaternion.RotateTowards(controller.Parent.transform.rotation, angleRotation, rotationSpeed * Time.deltaTime);
         }
         else
         {

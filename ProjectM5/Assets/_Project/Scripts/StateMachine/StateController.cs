@@ -16,7 +16,11 @@ public class StateController : MonoBehaviour
     protected LineRenderer lineRend;
     protected Animator animator;
 
+
     protected AnimationScript anim;
+    public Vector3 TriggerPoint;
+
+    protected Transform parent;
 
     [Header("Stat for Visual Cone")]
     [SerializeField] protected Transform target;
@@ -25,6 +29,7 @@ public class StateController : MonoBehaviour
     [Header("Parametres Interval")]
     [SerializeField] protected float interval;
 
+    public bool IsTrigger;
 
     //Getter
     public NavMeshAgent EnemyAgent { get { return enemyAgent; } }
@@ -33,11 +38,14 @@ public class StateController : MonoBehaviour
     public SO_StatEnemy Stat { get { return stat; } }
     public Animator Animator { get { return animator; } }
     public float Interval { get { return interval; } }
+    public Transform Parent { get { return parent; } }
     private void Awake()
     {
         allStates = GetComponentsInChildren<BaseState>();
         enemyAgent = GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
+
+        parent = GetComponent<Transform>();
        
         foreach (BaseState state in allStates)
         {

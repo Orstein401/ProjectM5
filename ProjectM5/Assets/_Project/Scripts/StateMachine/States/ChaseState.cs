@@ -10,6 +10,7 @@ public class ChaseState : BaseState
     protected float lastUpdateChase;
     public override void OnStateEnter()
     {
+        controller.EnemyAgent.speed = 3.5f;
         controller.Animator.SetBool(nameRunPar, true);
     }
     public override void StateUpdate()
